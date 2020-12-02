@@ -1,5 +1,11 @@
 import React from "react";
-
+import { Box, TextField } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -13,51 +19,81 @@ class Form extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  resetNote = () => {
-    this.setState({ noteBody: "" });
+  resetForm = () => {
+    this.setState({ noteBody: "", noteTitle: "" });
   };
 
   submitNote(e) {
     const {
-      resetNote,
       props: { createNote },
-      state: { noteBody },
+      state: { noteBody, noteTitle },
+      resetForm,
     } = this;
     e.preventDefault();
-    console.log("submitting note");
-    createNote(noteBody);
-    resetNote();
+    createNote(noteBody, noteTitle);
+    resetForm();
+  }
+
+  shouldEnable() {
+    const { noteBody, noteTitle } = this.state;
+    return !(noteBody && noteTitle);
   }
 
   render() {
     return (
-      <div>
-        <form
-          onSubmit={(e) => {
-            this.submitNote(e);
-          }}>
-          <input
-            type="text"
-            //@ts-ignore
-            maxLength="90"
-            value={this.state.noteTitle}
-            name="noteTitle"
-            onChange={(e) => {
-              this.handleChange(e);
-            }}
-          />
-          <textarea
-            // @ts-ignore
-            maxLength="10"
-            name="noteBody"
-            value={this.state.noteBody}
-            onChange={(e) => {
-              this.handleChange(e);
-            }}
-          />
-          <input type="submit" value="submit" />
-        </form>
-      </div>
+      <Box p={2}>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography color="textSecondary" gutterBottom>
+              Crate a Note:
+            </Typography>
+            <TextField
+              fullWidth
+              id="outlined-adornment-amount"
+              placeholder="Title"
+              type="text"
+              inputProps={{
+                maxLength: 10,
+              }}
+              variant="outlined"
+              name="noteTitle"
+              value={this.state.noteTitle}
+              onInput={(e) => {
+                this.handleChange(e);
+              }}
+            />
+            <Box mt={2}>
+              <TextField
+                label="Don't forget to..."
+                multiline
+                fullWidth
+                inputProps={{
+                  maxLength: 90,
+                }}
+                rows={4}
+                variant="outlined"
+                name="noteBody"
+                value={this.state.noteBody}
+                onInput={(e) => {
+                  this.handleChange(e);
+                }}
+              />
+            </Box>
+          </CardContent>
+          <CardActions>
+            <Button
+              disabled={this.shouldEnable()}
+              onClick={(e) => {
+                this.submitNote(e);
+              }}
+              variant="contained"
+              size="large"
+              color="primary">
+              Create Note
+            </Button>
+          </CardActions>
+        </Card>
+      </Box>
     );
   }
 }
