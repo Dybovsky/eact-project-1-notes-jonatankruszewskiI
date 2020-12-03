@@ -30,8 +30,7 @@ const NoteModal = (props) => {
       open={modalState}
       onClose={() => closeModal()}
       aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
+      aria-describedby="alert-dialog-description">
       <DialogTitle id="alert-dialog-title">Update Note</DialogTitle>
       <DialogContent>
         <TextField
@@ -71,11 +70,11 @@ const NoteModal = (props) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={updateModal} color="primary">
-          Update
-        </Button>
         <Button onClick={() => closeModal()} color="primary" autoFocus>
           Cancel
+        </Button>
+        <Button onClick={updateModal} color="primary">
+          Update
         </Button>
       </DialogActions>
     </Dialog>

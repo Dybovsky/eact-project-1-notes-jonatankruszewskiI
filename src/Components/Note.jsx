@@ -1,4 +1,11 @@
-import { Button, Card, Grid } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardActions,
+  Grid,
+  Typography,
+  CardContent,
+} from "@material-ui/core";
 import React from "react";
 import { convertDate } from "../helpers/convertDate";
 
@@ -18,27 +25,46 @@ const Note = (props) => {
       xs={12}
       md={6}
       lg={4}
-      xl={3}
-    >
+      xl={3}>
       <Card>
-        <p>{title}</p>
-        <p>{body}</p>
-        <p>{convertDate(date)}</p>
-        <p></p>
-        <Button
-          onClick={(event) => {
-            event.stopPropagation();
-            deleteNote(props.note.id);
-          }}
-          variant="contained"
-        >
-          Delete
-        </Button>
-        <Button variant="contained">Modify</Button>
+        <CardContent>
+          <Typography
+            color="textPrimary"
+            variant="h4"
+            component="h1"
+            gutterBottom>
+            {title}
+          </Typography>
+          <Typography
+            color="textPrimary"
+            variant="h5"
+            component="h2"
+            gutterBottom>
+            {body}
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="h6"
+            component="h2"
+            gutterBottom>
+            {convertDate(date)}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button
+            onClick={(event) => {
+              const { id } = props.note;
+              event.stopPropagation();
+              deleteNote(id);
+            }}
+            variant="contained">
+            Delete
+          </Button>
+          <Button variant="contained">Modify</Button>{" "}
+        </CardActions>
       </Card>
     </Grid>
   );
 };
 
 export default Note;
-//

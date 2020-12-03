@@ -85,8 +85,7 @@ class Form extends React.Component {
                 }}
                 variant="contained"
                 size="large"
-                color="primary"
-              >
+                color="primary">
                 Create Note
               </Button>
             </Box>
