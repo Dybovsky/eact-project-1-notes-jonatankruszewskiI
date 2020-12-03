@@ -8,16 +8,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { Box, TextField } from "@material-ui/core";
 import NoteModel from "../helpers/noteModel";
 const NoteModal = (props) => {
-  const { updateNote, closeModal, note } = props;
-  const { id, body, title } = note;
+  const { updateNote, closeModal, note, noteId } = props;
+  const { body, title } = note;
 
   const [noteBody, setNoteBody] = useState(body);
   const [noteTitle, setNoteTitle] = useState(title);
 
   const updateModal = () => {
-    const newNote = NoteModel(id, noteBody, noteTitle);
-    console.log("Modal", newNote);
-    updateNote(id, newNote);
+    const newNote = NoteModel(noteId, noteBody, noteTitle);
+    updateNote(noteId, newNote);
   };
 
   return (

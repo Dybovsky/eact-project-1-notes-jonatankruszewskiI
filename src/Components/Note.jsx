@@ -11,15 +11,14 @@ import { convertDate } from "../helpers/convertDate";
 
 const Note = (props) => {
   const {
-    note: { id, body, date, title },
-    deleteNote,
-    modifyNote,
+    note: { body, date, title },
   } = props;
 
   return (
     <Grid
       onClick={() => {
-        modifyNote(props.note.id);
+        const { id, modifyNote } = props;
+        modifyNote(id);
       }}
       item
       xs={12}
@@ -53,8 +52,8 @@ const Note = (props) => {
         <CardActions>
           <Button
             onClick={(event) => {
-              const { id } = props.note;
               event.stopPropagation();
+              const { id, deleteNote } = props;
               deleteNote(id);
             }}
             variant="contained">

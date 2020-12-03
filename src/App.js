@@ -22,7 +22,6 @@ class App extends React.Component {
 
   deleteNote(id) {
     const { notes } = this.state;
-    console.log(id);
     window.confirm("Are you sure?") && delete notes[id];
     this.setState({ notes: notes });
   }
@@ -59,6 +58,7 @@ class App extends React.Component {
               this.updateNote(a, b);
             }}
             closeModal={() => this.closeModal()}
+            noteId={selectedNote}
             note={notes[selectedNote]}></NoteModal>
         )}
 
