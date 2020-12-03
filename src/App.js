@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import Form from "Components/Form";
 import Notelist from "Components/NoteList";
-import NoteModel from "models/NoteModel";
+import noteModel from "helpers/noteModel";
 import { Box, Container, Grid } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
 import Header from "Components/Header";
@@ -12,8 +12,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       notes: {},
-      triggerModal: false,
-      selectedNote: null,
+      triggerModal: false, // to open close the modal
+      selectedNote: null, // the id of the note to open in the modal
     };
     this.createNote = this.createNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
@@ -29,16 +29,15 @@ class App extends React.Component {
 
   createNote(noteBody, noteTitle) {
     const { notes } = this.state;
-    const id = uuidv4();
-    const note = new NoteModel(noteBody, id, noteTitle);
-    const newNotes = Object.assign(notes, note);
+    const id = uuidv4().toString();
+    const noteValue = noteModel(id, noteBody, noteTitle);
+    const newNotes = Object.assign(notes, noteValue); // hard copying the state + adding a note
     this.setState({ notes: newNotes });
   }
 
   updateNote(id, newNote) {
     const { notes } = this.state;
-    const newNotes = Object.assign({}, notes);
-    newNotes[id] = newNote;
+    const newNotes = Object.assign(notes, newNote); // hard copying the state
     this.setState({ notes: newNotes, triggerModal: false, selectedNote: null });
   }
 
@@ -60,9 +59,7 @@ class App extends React.Component {
               this.updateNote(a, b);
             }}
             closeModal={() => this.closeModal()}
-            modalState={triggerModal}
-            note={notes[selectedNote] || new NoteModel("", "", "")}
-          ></NoteModal>
+            note={notes[selectedNote]}></NoteModal>
         )}
 
         <Grid container>
@@ -74,8 +71,7 @@ class App extends React.Component {
             <Form
               createNote={(a, b) => {
                 this.createNote(a, b);
-              }}
-            ></Form>
+              }}></Form>
           </Grid>
           <Grid item xs={false} sm={2} md={3} />
         </Grid>
@@ -86,8 +82,7 @@ class App extends React.Component {
           }}
           modifyNote={(id) => {
             this.modifyNote(id);
-          }}
-        ></Notelist>
+          }}></Notelist>
       </>
     );
   }

@@ -6,28 +6,23 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Box, TextField } from "@material-ui/core";
-import NoteModel from "../models/NoteModel";
+import NoteModel from "../helpers/noteModel";
 const NoteModal = (props) => {
-  const { updateNote, closeModal, modalState, note } = props;
-  const { id, body, title, date } = note;
+  const { updateNote, closeModal, note } = props;
+  const { id, body, title } = note;
 
-  const [noteBody, setNoteBody] = useState(body || "");
-  const [noteTitle, setNoteTitle] = useState(title || "");
+  const [noteBody, setNoteBody] = useState(body);
+  const [noteTitle, setNoteTitle] = useState(title);
 
   const updateModal = () => {
-    const notesss = new NoteModel(noteBody, id, noteTitle);
-    const newNote = {
-      title: noteTitle,
-      body: noteBody,
-      id: id,
-      date: Date.now(),
-    };
+    const newNote = NoteModel(id, noteBody, noteTitle);
+    console.log("Modal", newNote);
     updateNote(id, newNote);
   };
 
   return (
     <Dialog
-      open={modalState}
+      open={true}
       onClose={() => closeModal()}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description">
