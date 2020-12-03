@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -49,7 +48,6 @@ class Form extends React.Component {
             </Typography>
             <TextField
               fullWidth
-              id="outlined-adornment-amount"
               placeholder="Title"
               type="text"
               inputProps={{
@@ -79,19 +77,20 @@ class Form extends React.Component {
                 }}
               />
             </Box>
+            <Box mt={2}>
+              <Button
+                disabled={this.shouldEnable()}
+                onClick={(e) => {
+                  this.submitNote(e);
+                }}
+                variant="contained"
+                size="large"
+                color="primary"
+              >
+                Create Note
+              </Button>
+            </Box>
           </CardContent>
-          <CardActions>
-            <Button
-              disabled={this.shouldEnable()}
-              onClick={(e) => {
-                this.submitNote(e);
-              }}
-              variant="contained"
-              size="large"
-              color="primary">
-              Create Note
-            </Button>
-          </CardActions>
         </Card>
       </Box>
     );

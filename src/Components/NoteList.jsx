@@ -1,28 +1,40 @@
-import { Box } from "@material-ui/core";
-import React from "react";
+import { Box, Grid } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import Note from "./Note";
 
 const Notelist = (props) => {
-  const { notes, deleteNote } = props;
+  const { notes, deleteNote, modifyNote } = props;
+  let notesArray = [];
 
-  const checkNotes = () => {
-    if (!notes || notes.length === 0) return <Box>No Notes!</Box>;
-    return (
-      <div className="">
-        {notes.map((e, i) => {
-          return <Note key={e.id} note={e} />;
-        })}
-      </div>
-    );
+  const noteList = () => {
+    for (let note in notes) {
+      let copyNote = notes[note];
+      copyNote.id = note;
+      notesArray.push(copyNote);
+    }
   };
 
+  useEffect(() => {
+    noteList();
+  });
+
   return (
-    <div className="">
-      {notes.length >= 1 &&
-        notes.map((e) => {
-          return <Note key={e.id} note={e} deleteNote={deleteNote} />;
+    <Box p={3}>
+      <Grid item container spacing={4}>
+        {Object.keys(notes).map((keyName, index) => {
+          return (
+            <Note
+              key={keyName}
+              note={notes[keyName]}
+              modifyNote={(id) =>  modifyNote(id)}
+              deleteNote={(id) => {
+                deleteNote(id);
+              }}
+            />
+          );
         })}
-    </div>
+      </Grid>
+    </Box>
   );
 };
 

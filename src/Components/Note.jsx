@@ -1,40 +1,44 @@
-import { Button, Card } from "@material-ui/core";
+import { Button, Card, Grid } from "@material-ui/core";
 import React from "react";
+import { convertDate } from "../helpers/convertDate";
 
 const Note = (props) => {
   const {
     note: { id, body, date, title },
     deleteNote,
+    modifyNote,
   } = props;
 
-  const convertDate = (epochNumber) => {
-    const date = new Date(epochNumber);
-    const leadingZero = (num) => `0${num}`.slice(-2);
-
-    const formatTime = (date) =>
-      [date.getHours(), date.getMinutes(), date.getSeconds()]
-        .map(leadingZero)
-        .join(":");
-
-    const stringDate = `${date.getDay()}/${date.getMonth()}/${date
-      .getFullYear()
-      .toString()} - ${formatTime(date)}`;
-    return stringDate;
-  };
-
   return (
-    <Card>
-      <p>{id}</p>
-      <p>{title}</p>
-      <p>{body}</p>
-      <p>{convertDate(date)}</p>
-      <p></p>
-      <Button onClick={() => deleteNote(id)} variant="contained">
-        Delete
-      </Button>
-      <Button variant="contained">Modify</Button>
-    </Card>
+    <Grid
+      onClick={() => {
+        modifyNote(props.note.id);
+      }}
+      item
+      xs={12}
+      md={6}
+      lg={4}
+      xl={3}
+    >
+      <Card>
+        <p>{title}</p>
+        <p>{body}</p>
+        <p>{convertDate(date)}</p>
+        <p></p>
+        <Button
+          onClick={(event) => {
+            event.stopPropagation();
+            deleteNote(props.note.id);
+          }}
+          variant="contained"
+        >
+          Delete
+        </Button>
+        <Button variant="contained">Modify</Button>
+      </Card>
+    </Grid>
   );
 };
 
 export default Note;
+//
